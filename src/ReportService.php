@@ -13,7 +13,10 @@ class ReportService {
     private $token;
     private $ucid;
     private $st;
-
+    /**
+     * @var array
+     */
+    private $messagse;
     /**
      * construct
      * @param string $apiUrl
@@ -28,6 +31,7 @@ class ReportService {
         $this->token = $token;
         $this->ucid = $ucid;
         $this->st = $st;
+        $this->messagse = array();
     }
 
     /**
@@ -35,7 +39,7 @@ class ReportService {
      * @return array
      */
     public function getSiteList() {
-        echo '----------------------get site list----------------------' . PHP_EOL;
+        $this->addMessage('----------------------get site list----------------------');
         $apiConnection = new DataApiConnection();
         $apiConnection->init($this->apiUrl . '/getSiteList', $this->ucid);
 
@@ -63,7 +67,7 @@ class ReportService {
      * @return array
      */
     public function getData($parameters) {
-        echo '----------------------get data----------------------' . PHP_EOL;
+        $this->addMessage('----------------------get data----------------------');
         $apiConnection = new DataApiConnection();
         $apiConnection->init($this->apiUrl . '/getData', $this->ucid);
 

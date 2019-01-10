@@ -19,6 +19,10 @@ class LoginService {
     private $uuid;
 
     /**
+     * @var array
+     */
+    private $messagse;
+    /**
      * construct
      * @param string $loginUrl
      * @param string $uuid
@@ -26,6 +30,7 @@ class LoginService {
     public function __construct($loginUrl, $uuid) {
         $this->loginUrl = $loginUrl;
         $this->uuid = $uuid;
+        $this->messagse = array();
     }
 
     /**
@@ -35,8 +40,8 @@ class LoginService {
      * @return boolean
      */
     public function preLogin($userName, $token) {
-        echo '----------------------preLogin----------------------' . PHP_EOL;
-        echo '[notice] start preLogin!' . PHP_EOL;
+        $this->addMessage('----------------------preLogin----------------------');
+        $this->addMessage('[notice] start preLogin!');
 
         $preLogin = new LoginConnection();
         $preLogin->init($this->loginUrl);
@@ -57,24 +62,24 @@ class LoginService {
             $retData = gzdecode($preLogin->retData, strlen($preLogin->retData));
             $retArray = json_decode($retData, true);
             if (!isset($retArray['needAuthCode']) || $retArray['needAuthCode'] === true) {
-                echo "[error] preLogin return data format error: {$retData}" . PHP_EOL;
-                echo '--------------------preLogin End--------------------'. PHP_EOL;
+                $this->addMessage("[error] preLogin return data format error: {$retData}");
+                $this->addMessage('--------------------preLogin End--------------------');
                 return false;
             }
             else if ($retArray['needAuthCode'] === false) {
-                echo '[notice] preLogin successfully!' . PHP_EOL;
-                echo '--------------------preLogin End--------------------' . PHP_EOL;
+                $this->addMessage('[notice] preLogin successfully!');
+                $this->addMessage('--------------------preLogin End--------------------');
                 return true;
             }
             else {
-                echo "[error] unexpected preLogin return data: {$retData}" . PHP_EOL;
-                echo '--------------------preLogin End--------------------' . PHP_EOL;
+                $this->addMessage("[error] unexpected preLogin return data: {$retData}");
+                $this->addMessage('--------------------preLogin End--------------------');
                 return false;
             }
         }
         else {
-            echo "[error] preLogin unsuccessfully with return code: {$preLogin->returnCode}" . PHP_EOL;
-            echo '--------------------preLogin End--------------------' . PHP_EOL;
+            $this->addMessage("[error] preLogin unsuccessfully with return code: {$preLogin->returnCode}");
+            $this->addMessage('--------------------preLogin End--------------------');
             return false;
         }
     }
@@ -87,8 +92,8 @@ class LoginService {
      * @return array
      */
     public function doLogin($userName, $password, $token) {
-        echo '----------------------doLogin----------------------' . PHP_EOL;
-        echo '[notice] start doLogin!' . PHP_EOL;
+        $this->addMessage('----------------------doLogin----------------------');
+        $this->addMessage('[notice] start doLogin!');
 
         $doLogin = new LoginConnection();
         $doLogin->init($this->loginUrl);
@@ -108,27 +113,27 @@ class LoginService {
             $retData = gzinflate(substr($doLogin->retData,10,-8));
             $retArray = json_decode($retData, true);
             if (!isset($retArray['retcode']) || !isset($retArray['ucid']) || !isset($retArray['st'])) {
-                echo "[error] doLogin return data format error: {$retData}" . PHP_EOL;
-                echo '--------------------doLogin End--------------------' . PHP_EOL;
+                $this->addMessage("[error] doLogin return data format error: {$retData}");
+                $this->addMessage('--------------------doLogin End--------------------');
                 return null;
             }
             else if ($retArray['retcode'] === 0) {
-                echo '[notice] doLogin successfully!' . PHP_EOL;
-                echo '--------------------doLogin End--------------------' . PHP_EOL;
+                $this->addMessage('[notice] doLogin successfully!');
+                $this->addMessage('--------------------doLogin End--------------------');
                 return array(
                     'ucid' => $retArray['ucid'],
                     'st' => $retArray['st'],
                 );
             }
             else {
-                echo "[error] doLogin unsuccessfully with retcode: {$retArray['retcode']}" . PHP_EOL;
-                echo '--------------------doLogin End--------------------' . PHP_EOL;
+                $this->addMessage("[error] doLogin unsuccessfully with retcode: {$retArray['retcode']}");
+                $this->addMessage('--------------------doLogin End--------------------');
                 return null;
             }
         }
         else {
-            echo "[error] doLogin unsuccessfully with return code: {$doLogin->returnCode}" . PHP_EOL;
-            echo '--------------------doLogin End--------------------' . PHP_EOL;
+            $this->addMessage("[error] doLogin unsuccessfully with return code: {$doLogin->returnCode}");
+            $this->addMessage('--------------------doLogin End--------------------');
             return null;
         }
     }
@@ -142,8 +147,8 @@ class LoginService {
      * @return boolean
      */
     public function doLogout($userName, $token, $ucid, $st) {
-        echo '----------------------doLogout----------------------' . PHP_EOL;
-        echo '[notice] start doLogout!' . PHP_EOL;
+        $this->addMessage('----------------------doLogout----------------------');
+        $this->addMessage('[notice] start doLogout!');
 
         $doLogout = new LoginConnection();
         $doLogout->init($this->loginUrl);
@@ -163,25 +168,37 @@ class LoginService {
             $retData = gzdecode($doLogout->retData, strlen($doLogout->retData));
             $retArray = json_decode($retData, true);
             if (!isset($retArray['retcode'])) {
-                echo "[error] doLogout return data format error: {$retData}" . PHP_EOL;
-                echo '--------------------doLogout End--------------------' . PHP_EOL;
+                $this->addMessage("[error] doLogout return data format error: {$retData}");
+                $this->addMessage('--------------------doLogout End--------------------');
                 return false;
             }
             else if ($retArray['retcode'] === 0 ) {
-                echo '[notice] doLogout successfully!' . PHP_EOL;
-                echo '--------------------doLogout End--------------------' . PHP_EOL;
+                $this->addMessage('[notice] doLogout successfully!');
+                $this->addMessage('--------------------doLogout End--------------------');
                 return true;
             }
             else {
-                echo "[error] doLogout unsuccessfully with retcode: {$retArray['retcode']}" . PHP_EOL;
-                echo '--------------------doLogout End--------------------' . PHP_EOL;
+                $this->addMessage("[error] doLogout unsuccessfully with retcode: {$retArray['retcode']}");
+                $this->addMessage('--------------------doLogout End--------------------');
                 return false;
             }
         }
         else {
-            echo "[error] doLogout unsuccessfully with return code: {$doLogout->returnCode}" . PHP_EOL;
-            echo '--------------------doLogout End--------------------' . PHP_EOL;
+            $this->addMessage("[error] doLogout unsuccessfully with return code: {$doLogout->returnCode}");
+            $this->addMessage('--------------------doLogout End--------------------');
             return false;
         }
+    }
+
+    protected function addMessage($str) {
+        $this->messagse[] = $str . PHP_EOL;
+    }
+
+    public function cleanMessages() {
+        $this->messagse = array();
+    }
+
+    public function getMessages() {
+        return $this->messagse;
     }
 }

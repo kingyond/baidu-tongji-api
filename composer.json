@@ -23,12 +23,14 @@
     "autoload": {
         "psr-4": {
             "Baidu\\Tongji\\": "src"
-        }
+        },
+        "files": ["src/Utility.php"]
     },
     "autoload-dev": {
         "psr-4": {
             "Baidu\\Tongji\\Test\\": "tests"
-        }
+        },
+        "files": ["src/Utility.php"]
     },
     "scripts": {
         "test": "vendor/bin/phpunit"

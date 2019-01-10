@@ -32,7 +32,10 @@ class LoginConnection{
      * @var string
      */
     public $retData;
-
+    /**
+     * @var string
+     */
+    public $error;
     /**
      * init
      * @param string $url
@@ -79,7 +82,7 @@ class LoginConnection{
 
         $tmpInfo = curl_exec($curl);
         if (curl_errno($curl)) {
-            echo '[error] CURL ERROR: ' . curl_error($curl). PHP_EOL;
+            $this->error = '[error] CURL ERROR: ' . curl_error($curl). PHP_EOL;
         }
         curl_close($curl);
 
