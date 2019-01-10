@@ -5,15 +5,15 @@
     "license": "MIT",
     "authors": [
         {
+          "name": "kingyond",
+          "email": "900483@qq.com",
+          "homepage": "http://www.easyfty.com",
+          "role": "Developer"
+        },
+        {
             "name": "adzon",
             "email": "76762@qq.com",
             "homepage": "http://www.huleping.com",
-            "role": "Developer"
-        },
-        {
-            "name": "kingyond",
-            "email": "900483@qq.com",
-            "homepage": "http://www.easyfty.com",
             "role": "Developer"
         }
     ],

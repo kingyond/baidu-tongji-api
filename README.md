@@ -1,5 +1,7 @@
 把百度tongji API放到了composer里面,
 
+对原版做了补丁。
+
 这个api的介绍：
 
 http://tongji.baidu.com/open/api/more?p=tongjiapi_guide.tpl
@@ -38,7 +40,7 @@ Tongji API是百度统计提供的数据导出服务。
 ## 安装说明
 
 ```bash
-composer require adzon/Baidu-tongji-api
+composer require kingyond/Baidu-tongji-api
 ```
 
 ## 使用说明
@@ -58,6 +60,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [adzon](https://github.com/adzon)
 - [执行力就是挨个搞](http://www.huleping.com/)
 - [All Contributors](../../contributors)
+- [Kingyond]()
 
 ## License
 
