@@ -40,9 +40,9 @@ class DataApiConnection {
      * @param string $url
      * @param string $ucid
      */
-    public function init($url, $ucid) {
+    public function init($url, $ucid, $uuid) {
         $this->url = $url;
-        $this->headers = array('UUID: '.UUID, 'USERID: '.$ucid, 'Content-Type:  data/json;charset=UTF-8');
+        $this->headers = array('UUID: '.$uuid, 'USERID: '.$ucid, 'Content-Type:  data/json;charset=UTF-8');
     }
 
     /**

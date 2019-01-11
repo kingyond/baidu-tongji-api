@@ -5,7 +5,7 @@
  * especially, you can modify this Demo on your need!
  */
 $composerAutoload = __DIR__ . '/../vendor/autoload.php';
-echo $composerAutoload;
+
 if (file_exists($composerAutoload))
 {
     $loader = require_once $composerAutoload;
@@ -34,7 +34,7 @@ define('UUID', '******');
 //ACCOUNT_TYPE
 define('ACCOUNT_TYPE', 1); //ZhanZhang:1,FengChao:2,Union:3,Columbus:4
 
-$loginService = new LoginService(LOGIN_URL, UUID, '', __DIR__ . '/../src/');
+$loginService = new LoginService(LOGIN_URL, UUID, ACCOUNT_TYPE, '',   __DIR__.'/../src/');
 
 // preLogin
 if (!$loginService->preLogin(USERNAME, TOKEN)) {
@@ -57,7 +57,7 @@ else {
     exit();
 }
 
-$reportService = new ReportService(API_URL, USERNAME, TOKEN, $ucid, $st);
+$reportService = new ReportService(API_URL, USERNAME, TOKEN, $ucid, $st, UUID, ACCOUNT_TYPE);
 
 // get site list
 $ret = $reportService->getSiteList();

@@ -13,6 +13,9 @@ class ReportService {
     private $token;
     private $ucid;
     private $st;
+    private $uuid;
+    private $account_type;
+
     /**
      * @var array
      */
@@ -25,12 +28,14 @@ class ReportService {
      * @param string $ucid
      * @param string $st
      */
-    public function __construct($apiUrl, $userName, $token, $ucid, $st) {
+    public function __construct($apiUrl, $userName, $token, $ucid, $st, $uuid, $account_type) {
         $this->apiUrl = $apiUrl;
         $this->userName = $userName;
         $this->token = $token;
         $this->ucid = $ucid;
         $this->st = $st;
+        $this->uuid = $uuid;
+        $this->account_type = $account_type;
         $this->messagse = array();
     }
 
@@ -41,14 +46,14 @@ class ReportService {
     public function getSiteList() {
         $this->addMessage('----------------------get site list----------------------');
         $apiConnection = new DataApiConnection();
-        $apiConnection->init($this->apiUrl . '/getSiteList', $this->ucid);
+        $apiConnection->init($this->apiUrl . '/getSiteList', $this->ucid, $this->uuid);
 
         $apiConnectionData = array(
             'header' => array(
                 'username' => $this->userName,
                 'password' => $this->st,
                 'token' => $this->token,
-                'account_type' => ACCOUNT_TYPE,
+                'account_type' => $this->account_type,
             ),
             'body' => null,
         );
@@ -69,14 +74,14 @@ class ReportService {
     public function getData($parameters) {
         $this->addMessage('----------------------get data----------------------');
         $apiConnection = new DataApiConnection();
-        $apiConnection->init($this->apiUrl . '/getData', $this->ucid);
+        $apiConnection->init($this->apiUrl . '/getData', $this->ucid, $this->uuid);
 
         $apiConnectionData = array(
             'header' => array(
                 'username' => $this->userName,
                 'password' => $this->st,
                 'token' => $this->token,
-                'account_type' => ACCOUNT_TYPE,
+                'account_type' => $this->account_type,
             ),
             'body' => $parameters,
         );

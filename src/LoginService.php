@@ -31,16 +31,21 @@ class LoginService {
      */
     private $pukpath;
     /**
+     * @var string
+     */
+    private $account_type;
+    /**
      * construct
      * @param string $loginUrl
      * @param string $uuid
      */
-    public function __construct($loginUrl, $uuid, $puk, $pukpath='') {
+    public function __construct($loginUrl, $uuid, $account_type, $puk='', $pukpath='') {
         $this->loginUrl = $loginUrl;
         $this->uuid = $uuid;
-        $this->messagse = array();
+        $this->account_type = $account_type;
         $this->puk = $puk;
         $this->pukpath = $pukpath;
+        $this->messagse = array();
     }
 
     /**
@@ -54,7 +59,7 @@ class LoginService {
         $this->addMessage('[notice] start preLogin!');
 
         $preLogin = new LoginConnection();
-        $preLogin->init($this->loginUrl, $this->puk, $this->pukpath);
+        $preLogin->init($this->loginUrl, $this->uuid, $this->account_type, $this->puk, $this->pukpath);
         $preLoginData = array(
             'username' => $userName,
             'token' => $token,
@@ -111,7 +116,7 @@ class LoginService {
         $this->addMessage('[notice] start doLogin!');
 
         $doLogin = new LoginConnection();
-        $doLogin->init($this->loginUrl, $this->puk, $this->pukpath);
+        $doLogin->init($this->loginUrl, $this->uuid, $this->account_type, $this->puk, $this->pukpath);
         $doLoginData = array(
             'username' => $userName,
             'token' => $token,
@@ -166,7 +171,7 @@ class LoginService {
         $this->addMessage('[notice] start doLogout!');
 
         $doLogout = new LoginConnection();
-        $doLogout->init($this->loginUrl, $this->puk, $this->pukpath);
+        $doLogout->init($this->loginUrl, $this->uuid, $this->account_type, $this->puk, $this->pukpath);
         $doLogoutData = array(
             'username' => $userName,
             'token' => $token,

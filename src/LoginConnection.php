@@ -53,11 +53,11 @@ class LoginConnection{
      * init
      * @param string $url
      */
-    public function init($url, $puk='', $pukpath='') {
+    public function init($url, $uuid, $account_type, $puk='', $pukpath='') {
         $this->url = $url;
         $this->puk = $puk;
         $this->pukpath = $pukpath;
-        $this->headers = array('UUID: '.UUID, 'account_type: '.ACCOUNT_TYPE, 'Content-Type:  data/gzencode and rsa public encrypt;charset=UTF-8');
+        $this->headers = array('UUID: '.$uuid, 'account_type: '.$account_type, 'Content-Type:  data/gzencode and rsa public encrypt;charset=UTF-8');
     }
 
     /**
@@ -114,6 +114,8 @@ class LoginConnection{
         if ($this->returnCode === 0) {
             $this->retData = substr($tmpInfo, 8);
         }
+        $this->retData = substr($tmpInfo, 8);
+
         return true;
     }
 }
