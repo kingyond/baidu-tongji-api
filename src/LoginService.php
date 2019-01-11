@@ -23,14 +23,24 @@ class LoginService {
      */
     private $messagse;
     /**
+     * @var string
+     */
+    private $puk;
+    /**
+     * @var string
+     */
+    private $pukpath;
+    /**
      * construct
      * @param string $loginUrl
      * @param string $uuid
      */
-    public function __construct($loginUrl, $uuid) {
+    public function __construct($loginUrl, $uuid, $puk, $pukpath='') {
         $this->loginUrl = $loginUrl;
         $this->uuid = $uuid;
         $this->messagse = array();
+        $this->puk = $puk;
+        $this->pukpath = $pukpath;
     }
 
     /**
@@ -44,7 +54,7 @@ class LoginService {
         $this->addMessage('[notice] start preLogin!');
 
         $preLogin = new LoginConnection();
-        $preLogin->init($this->loginUrl);
+        $preLogin->init($this->loginUrl, $this->puk, $this->pukpath);
         $preLoginData = array(
             'username' => $userName,
             'token' => $token,
@@ -56,7 +66,12 @@ class LoginService {
                 'clientVersion' => '1.0',
             ),
         );
-        $preLogin->POST($preLoginData);
+        $ret = $preLogin->POST($preLoginData);
+        if (!$ret) {
+            $this->addMessage("[error] preLogin unsuccessfully with post error: {$preLogin->getError()}");
+            $this->addMessage('--------------------preLogin End--------------------');
+            return false;
+        }
 
         if ($preLogin->returnCode === 0) {
             $retData = gzdecode($preLogin->retData, strlen($preLogin->retData));
@@ -96,7 +111,7 @@ class LoginService {
         $this->addMessage('[notice] start doLogin!');
 
         $doLogin = new LoginConnection();
-        $doLogin->init($this->loginUrl);
+        $doLogin->init($this->loginUrl, $this->puk, $this->pukpath);
         $doLoginData = array(
             'username' => $userName,
             'token' => $token,
@@ -151,7 +166,7 @@ class LoginService {
         $this->addMessage('[notice] start doLogout!');
 
         $doLogout = new LoginConnection();
-        $doLogout->init($this->loginUrl);
+        $doLogout->init($this->loginUrl, $this->puk, $this->pukpath);
         $doLogoutData = array(
             'username' => $userName,
             'token' => $token,

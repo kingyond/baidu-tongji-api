@@ -88,4 +88,16 @@ class ReportService {
             'raw' => $apiConnection->retRaw,
         );
     }
+
+    protected function addMessage($str) {
+        $this->messagse[] = $str . PHP_EOL;
+    }
+
+    public function cleanMessages() {
+        $this->messagse = array();
+    }
+
+    public function getMessages() {
+        return $this->messagse;
+    }
 }
