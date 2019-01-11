@@ -114,8 +114,7 @@ class LoginConnection{
         if ($this->returnCode === 0) {
             $this->retData = substr($tmpInfo, 8);
         }
-        $this->retData = substr($tmpInfo, 8);
-
+        
         return true;
     }
 }
