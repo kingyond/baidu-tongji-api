@@ -36,6 +36,11 @@ class DataApiConnection {
     public $retRaw;
 
     /**
+     * @var string
+     */
+    public $error;
+
+    /**
      * init
      * @param string $url
      * @param string $ucid
@@ -43,6 +48,7 @@ class DataApiConnection {
     public function init($url, $ucid, $uuid) {
         $this->url = $url;
         $this->headers = array('UUID: '.$uuid, 'USERID: '.$ucid, 'Content-Type:  data/json;charset=UTF-8');
+        $this->error = '';
     }
 
     /**
@@ -76,7 +82,7 @@ class DataApiConnection {
 
         $tmpRet = curl_exec($curl);
         if (curl_errno($curl)) {
-            echo '[error] CURL ERROR: ' . curl_error($curl) . PHP_EOL;
+            $this->error = '[error] CURL ERROR: ' . curl_error($curl) . PHP_EOL;
         }
         curl_close($curl);
         $tmpArray = json_decode($tmpRet, true);
@@ -86,7 +92,7 @@ class DataApiConnection {
             $this->retRaw = $tmpRet;
         }
         else {
-            echo "[error] SERVICE ERROR: {$tmpRet}" . PHP_EOL;
+            $this->error = "[error] SERVICE ERROR: {$tmpRet}" . PHP_EOL;
         }
     }
 }

@@ -129,8 +129,7 @@ class LoginService {
         $doLogin->POST($doLoginData);
 
         if ($doLogin->returnCode === 0) {
-           // $retData = gzdecode($doLogin->retData, strlen($doLogin->retData));
-            $retData = gzinflate(substr($doLogin->retData,10,-8));
+            $retData = gzdecode($doLogin->retData);
             $retArray = json_decode($retData, true);
             if (!isset($retArray['retcode']) || !isset($retArray['ucid']) || !isset($retArray['st'])) {
                 $this->addMessage("[error] doLogin return data format error: {$retData}");
